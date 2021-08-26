@@ -15,8 +15,12 @@ custom_config = r'--oem 3 --psm 6'
 
 from matplotlib import pyplot as plt
 
+
+chemin=os.getcwd()
+
+
 # load raw image
-img = cv2.imread("/Users/morellatel/IdeaProjects/flask-test/static/images/Bilans_sanguins-page0.jpg",0)
+img = cv2.imread(chemin+'/'+'static/images/Bilans_sanguins-page0.jpg',0)
 
 # Display raw image
 plt.imshow(img)
@@ -41,7 +45,7 @@ plt.show()
 # Apply Image Thresholding
 img_thresh = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
 
-# INVERT THE IMAGE , 255 is the maximum value
+##############  INVERT THE IMAGE , 255 is the maximum value
 img_thresh = 255-img_thresh
 
 # Display image
@@ -49,7 +53,7 @@ plt.imshow(img_thresh)
 plt.show()
 
 
-######### TEXT ALIGNMENT IN THE IMAGE ########################################
+#####################   TEXT ALIGNMENT IN THE IMAGE ########################################
 def align_text(im):
     coords = np.column_stack(np.where(img_thresh > 0))
 
@@ -75,7 +79,7 @@ plt.imshow(img)
 plt.show()
 
 # SPLIT IMAGE INTO ROWS
-########## Split text into rows #############################
+###################  Split text into rows #############################
 
 # Find sum of column values , row-wise
 a = np.sum(img==255,axis=1)
@@ -104,10 +108,13 @@ plt.show()
 #    print(pytesseract.image_to_string(img[rows[i][0]:rows[i][-1],:],config=custom_config,lang='fra'))
 
 
-path_image='/Users/morellatel/IdeaProjects/flask-test/static/images/'
-chemin_image='/Users/morellatel/IdeaProjects/flask-test/static/images'
+path_static_folder='static/images/'
+path_image= chemin+"/"+path_static_folder
+chemin_image= chemin+"/"+path_static_folder
 files_in_dir = os.listdir(path_image)
 print(files_in_dir)
+
+
 # Extract texte  from image using PyOCR
 image_txt = []
 tools = pyocr.get_available_tools()[0]
@@ -119,7 +126,7 @@ for name in files_in_dir:
     #txt=' '.join(txt.replace('-\n','').replace('\n','\n').split())
     print(txt)
 
-    output_dir = '/Users/morellatel/IdeaProjects/flask-test/output'
+    output_dir = chemin+'/'+'output'
     filename=name[:-4]
     nom_fichier=output_dir+'/'+filename+'.txt'
     fichier = open(nom_fichier,"w")
