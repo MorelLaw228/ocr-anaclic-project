@@ -1,6 +1,6 @@
 import re
 import csv 
-from spellchecker import SpellChecker
+from spellchecker import Spellchecker
 
 
 def convert2csv():
@@ -9,7 +9,7 @@ def convert2csv():
         writer = csv.writer(f,delimiter = ";")
         writer.writerow(header)
         fichier2 = open("correction0.txt", "a")
-        spell = SpellChecker(language=None,distance = 1)
+        spell = Spellchecker(language=None,distance = 1)
         spell.word_frequency.load_dictionary('medicaleJson.json')
         with open('datasetDcp.txt') as f:
             dictionnary = [''+line.rstrip() for line in f]
