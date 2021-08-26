@@ -1,0 +1,407 @@
+Hémoglobine
+Hemoglobine
+Hb
+VGM
+V.G.M
+volume globulaire moyen
+Réticulocytes
+Reticulocytes
+Schizocytes
+leucocytes
+polynucléaire neutrophiles
+P neutrophiles
+P éosinophiles
+P basophiles
+polynucléaires éosinophiles
+polynucléaires basophiles
+lymphocytes
+monocytes
+lymphocytes hyperbasophile
+Myélémie
+Myelemie
+Myélocytes
+Myelocytes
+Métamyélocytes
+Metamyelocytes
+Promyélocytes
+Promyelocytes
+Plaquettes
+Chlore
+INR
+I.N.R
+TP
+T.P
+TAUX DE PROTHROMBINE
+Taux de prothrombine
+Rapport Patient
+Hémoglobine A
+Hemoglobine A
+HbA
+H.b.A
+Hémoglobine F
+Hemoglobine F
+HbF
+H.b.F
+Hémoglobine A2
+Hemoglobine A2
+HbA2
+H.b.A2
+Hémoglobine S
+Hemoglobine S
+Hbc
+Hb.c
+HbS
+Hb.S
+Hémoglobine O-arab
+Hémoglobine O arab
+Hemoglobine O-arab
+HbO-arab
+HbO arab
+Hémoglobine D-los angeles
+Hemoglobine D-los angeles
+Hémoglobine D-Punjab
+Hemoglobine D-Punjab
+Hémoglobine D los angeles
+Hemoglobine D los angeles
+Hémoglobine D Punjab
+Hemoglobine D Punjab
+HbD-los angeles
+HbD-Punjab
+HbD los angeles
+HbD Punjab
+Hémoglobine C
+Hemoglobine C
+HbC
+Hb.C
+Hémoglobine Constant Spring
+Hemoglobine Constant Spring
+Hb Constant Spring
+Hémoglobine E
+Hemoglobine E
+HbE
+Hb.E
+hémoglobine glyquée
+hemoglobine glyquee
+Sodium
+Potassium
+Bicarbonates
+Urée
+Uree
+Créatinine
+Creatinine
+Clairance de la créatinine
+Clairance de la creatinine
+débit de filtration glomérulaire
+Cockcroft
+MDRD
+CKD-EPI
+debit de filtration glomerulaire
+DFG
+D.F.G
+Osmolalité Plasmatique mesurée
+Osmolalite Plasmatique mesuree
+OPM
+O.P.M
+Calcium
+Phosphore
+Protides
+Glycémie à jeun
+Glycémie
+Glycemie à jeun
+Glycemie
+Ferritine
+Coefficient de saturation de la Transferrine
+Protéine C Réactive
+Proteine C Réactive
+CRP
+C.R.P
+Vitesse de sédimentation
+Vitesse de sedimentation
+V.S 1ère heure
+VS 1ère heure
+VS 1ere heure
+1ère heure
+Fibrinogène
+Fibrinogene
+Haptoglobine
+antithrombine
+ammonium
+Lipase
+Amylase
+Aldolase
+Myoglobine
+CPK
+C.P.K
+Créatine Phosphokinase
+Creatine Phosphokinase
+LDL-cholesterol
+HDL-cholesterol
+LDL cholesterol
+HDL cholesterol
+L.D.L-cholesterol
+H.D.L-cholesterol
+L.D.L cholesterol
+H.D.L cholesterol
+Triglycérides
+Triglycerides
+ASAT
+A.S.A.T
+TGO
+T.G.O
+Transaminases SGOT
+ALAT
+A.L.A.T
+TGP
+T.G.P
+transaminases SGPT
+phosphatases alcalines
+PAL
+P.A.L
+Gamma-glutamyl transpéptidase
+Gamma glutamyl transpéptidase
+GGT
+G.G.T
+5’Nucléotidase
+5' Nucleotidase
+5' Nucléotidase
+5’ Nucleotidase
+Bilirubine totale
+Bilirubine libre
+Bilirubine conjuguée
+Bilirubine conjuguee
+Lactate déshydrogénase
+Lactate déshydrogenase
+LDH
+L.D.H
+TSHus
+TSH
+T.S.H
+T4 libre
+T4L
+T3 libre
+T3L
+T3.L
+Anticorps anti-thyroglobuline
+Anticorps anti thyroglobuline
+Anticorps anti-TPO
+Anticorps anti TPO
+Anticorps anti-récepteurs TSH
+Anticorps anti récepteurs TSH
+Anticorps anti-recepteurs TSH
+Anticorps anti recepteurs TSH
+Ac anti-thyroglobuline
+Ac anti thyroglobuline
+Ac anti-TPO
+Ac anti TPO
+Ac anti-récepteurs TSH
+Ac anti récepteurs TSH
+Ac anti-recepteurs TSH
+Ac anti recepteurs TSH
+Prolactine
+Immunoglobulines G
+Immunoglobulines A
+IgA
+IgG
+IgM
+Ig.A
+Ig.G
+Ig.M
+Protides totaux
+Albumine
+Alpha 1 Globulines
+α1 Globulines
+Alpha 2 Globulines
+α2 Globulines
+Beta 1 Globulines
+β 1 Globulines
+Beta 2 Globulines
+β2 Globulines
+Gamma Globulines
+γ Globulines
+HIV
+H.I.V
+Anticorps anti-HIV1
+Anticorps anti HIV1
+Anticorps anti-HIV2
+Anticorps anti HIV2
+Anticorps anti-HIV1+2
+Anticorps anti HIV1+2
+ANTICORPS ANTI-HIV1 + ANTI-HIV2
+ANTICORPS ANTI HIV1 + ANTI HIV2
+Ac anti-HIV1
+Ac anti HIV1
+Ac anti-HIV2
+Ac anti HIV2
+Ac anti-HIV1+2
+Ac anti HIV1+2
+Ac ANTI-HIV1 + ANTI-HIV2
+Ac ANTI HIV1 + ANTI HIV2
+Antigène p24
+Antigene p24
+Ag p24
+Antigène HBs
+Antigene HBs
+Ag HBs
+Anticorps anti-HBC totaux
+Anticorps anti HBC totaux
+Ac anti-HBC
+Ac anti HBC
+Anticorps anti-VHC
+Anticorps anti-HVC
+Anticorps anti-VHA
+Anticorps anti-HVA
+Anticorps anti-VHD
+ANTICORPS ANTI-HVD
+Anticorps anti-VHE
+ANTICORPS ANTI-HVE
+Anticorps anti-mitochondries
+Anticorps anti VHC
+Anticorps anti HVC
+Anticorps anti VHA
+Anticorps anti HVA
+Anticorps anti VHD
+ANTICORPS ANTI HVD
+Anticorps anti VHE
+ANTICORPS ANTI HVE
+Anticorps anti mitochondries
+Ac anti-VHC
+Ac anti-HVC
+Ac anti-VHA
+Ac anti-HVA
+Ac anti-VHD
+Ac ANTI-HVD
+Ac anti-VHE
+Ac ANTI-HVE
+Ac anti-mitochondries
+Ac anti VHC
+Ac anti HVC
+Ac anti VHA
+Ac anti HVA
+Ac anti VHD
+Ac ANTI HVD
+Ac anti VHE
+Ac ANTI HVE
+Ac anti mitochondries
+AMM
+A.M.M
+Anticorps anti-nucléaire
+Anticorps anti-nucleaire
+Anticorps anti-muscle lisse
+Anticorps anti-LKM
+Anticorps anti-HBS
+Anticorps anti nucléaire
+Anticorps anti nucleaire
+Anticorps anti muscle lisse
+Anticorps anti LKM
+Anticorps anti HBS
+Ac anti-nucléaire
+Ac anti-nucleaire
+Ac anti-muscle lisse
+Ac anti-LKM
+Ac anti-HBS
+Ac anti nucléaire
+Ac anti nucleaire
+Ac anti muscle lisse
+Ac anti LKM
+Ac anti HBS
+Immunoglobuline M anti-HBC
+Immunoglobuline M anti HBC
+IgM anti-HBc
+IgG anti-VHA
+IgM anti-VHA
+IgM anti-HVA
+IgM anti-VHB
+IgG anti-VHB
+IgM anti-VHC
+IgM anti-HVC
+IgM anti-VHD
+IgM anti-HVD
+IgM anti-VHE
+IgM anti-HVE
+IgM anti HBc
+IgG anti VHA
+IgM anti VHA
+IgM anti HVA
+IgM anti VHB
+IgG anti VHB
+IgM anti VHC
+IgM anti HVC
+IgM anti VHD
+IgM anti HVD
+IgM anti VHE
+IgM anti HVE
+ADN HVB
+ADN VHB
+A.D.N
+charge virale HVB
+charge virale VHB
+A.R.N
+ARN HVC
+ARN VHC
+charge virale HVC
+charge virale VHC
+EBV
+E.B.V
+Immunoglobuline G anti VCA
+IgG VCA
+Immunoglobuline M anti VCA
+IgM-VCA
+IgM VCA
+Immunoglobuline G anti EBNA
+IgG-EBNA
+IgG EBNA
+Immunoglobuline G anti EA
+IgG-EA
+IgG EA
+ARN HIV
+ARN VIH
+charge virale HIV
+charge virale VIH
+VDRL
+V.D.R.L
+TPHA
+T.P.H.A
+FTA Immunoglobuline M
+F.T.A
+FTA-IgM
+FTA IgM
+Immunoglobuline M toxoplasmose
+IgM (toxoplasmose)
+IgM toxoplasmose
+Immunoglobuline M toxoplasmose
+Immunoglobuline G toxoplasmose
+IgG (toxoplasmose)
+IgG toxoplasmose
+Immunoglobuline M rubéole
+IgM (rubéole)
+IgM rubéole
+Immunoglobuline G rubéole
+IgG (rubéole)
+IgG rubéole
+Troponine-I hypersensible
+Troponine I
+BNP
+Folates érythrocytaires
+Folates erythrocytaires
+Folates sériques
+Folates seriques
+Vitamine B12
+PSA
+AFP
+hCG
+ACE
+P.S.A
+A.F.P
+h.C.G
+A.C.E
+CA 125
+CA 15-3
+Calcitonine
+Waaler-Rose
+Waaler Rose
+Facteur Rhumatoïde
+Hématurie
+Hematurie
+Protéinurie
+Proteinurie
+Leucocyturie
