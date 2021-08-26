@@ -2,11 +2,10 @@
 
 from flask import *
 import os
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 import cv2
 from PIL import Image
 import numpy as np
-from skimage.filters import threshold_local
 import ultim
 
 
