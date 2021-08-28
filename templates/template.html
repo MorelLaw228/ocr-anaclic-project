@@ -1,0 +1,64 @@
+{% include "header.html" %}
+
+{% block body %}
+
+
+      <nav class="navbar navbar-light navbar-expand-lg shadow-sm bg-secondary ">
+        <a href="index" class="navbar-brand"></a>
+        <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
+        <div class="container-fluid">
+          <div id="navbarSupportedContent" class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+              <li class="nav-item bg-info" style="margin-right:50px"><a href="imagetotext" class="nav-link" style='font-family:"Khand","sans-serif";'>Image to Text</a></li>
+              <!--<li class="nav-item bg-danger" style='margin-right:50px;'><a href="#" class="nav-link" style='font-family:"Khand","sans-serif";box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);color:ivory;'>Image to Text</a></li>
+              <li class="nav-item bg-warning"><a href="imagetospeech" class="nav-link" style='font-family:"Khand","sans-serif";'>Image to Speech</a></li>-->
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+
+    <div class="container">
+        <br>
+        <br>
+        <h1 class="text-center" style="font-size: 10vh">OCR ANACLIC<span style="font-size: 3vh;">Par LAWSON & AKAKPO Inspired by Luca Di Bello Project</span></h1>
+        <hr>
+
+        <h2>Description:</h2>
+        <h4>Il s'agit d'un site web de test qui a pour but d'extraire du texte dans des images (Processus d'OCR) . Le lien du dépôt git dont est illustré ce site web est le suivant : <a href="https://github.com/lucadibello/ImageReader">https://github.com/lucadibello/ImageReader</a>  </h4>
+
+        <hr>
+        <br><br>
+        <h2>Veuillez choisir une image à océriser !!!</h2>
+
+        <div class="text-center">
+            <form action="scanner" method=post enctype=multipart/form-data>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="inputGroupFile01"
+                               aria-describedby="inputGroupFileAddon01" accept="image/*">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+
+                <br>
+                <button type="submit" class="btn btn-raised btn-primary">Scan Image</button>
+            </form>
+        </div>
+    </div>
+
+<!--
+    <form action="scanner" method=post enctype=multipart/form-data>
+        <input type="file" name="file">
+        <input type="submit" value="Scan file">
+    </form>
+    <hr>
+-->
+
+{% if scanned %}
+    <hr>
+    <h1>Resultats obtenus : </h1>
+{% endif %}
+{% endblock body %}
+
+{% include "footer.html" %}

@@ -1,5 +1,8 @@
 #!/usr/bin/python3
+import datetime
 import time
+import io
+
 
 import cv2
 import pytesseract
@@ -8,11 +11,12 @@ import os
 from werkzeug.utils import secure_filename
 #import cv2
 from PIL import Image
-import numpy as np
 #import ultim
 import imghdr
 import numpy as np
 import re
+import csv
+from spellchecker import SpellChecker
 from statistics import mode
 
 
@@ -46,6 +50,55 @@ UPLOAD_DIRECTORY = "uploads"
 app.config['MAX_CONTENT_LENGHT'] = 16*1024*1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg','.png','.jpeg']
 app.config['UPLOAD_PATH'] = 'uploads'
+
+
+
+# Secret key for sessions encryption
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+
+@app.route('/home')
+def my_home():
+    return render_template("template.html", title="Image Reader")
+
+
+@app.route('/scanner', methods=['GET', 'POST'])
+def scan_file():
+    if request.method == 'POST':
+        start_time = datetime.datetime.now()
+        image_data = request.files['file'].read()
+
+        scanned_text = pytesseract.image_to_string(Image.open(io.BytesIO(image_data)),lang='fra',config='--oem 3 --psm 6')
+
+        #scanned_text = pytesseract.image_to_string(Image.open(image_data))
+
+        print("Found data:", scanned_text)
+
+        session['data'] = {
+            "text": scanned_text,
+            "time": str((datetime.datetime.now() - start_time).total_seconds())
+        }
+
+        return redirect(url_for('result'))
+
+
+@app.route('/result')
+def result():
+    if "data" in session:
+        data = session['data']
+        return render_template(
+            "result.html",
+            title="Result",
+            time=data["time"],
+            text=data["text"],
+            words=len(data["text"].split(" "))
+        )
+    else:
+        return "Wrong request method."
+
+
+
+
 
 
 def apply_threshold(img,argument):
@@ -181,11 +234,92 @@ def upload_image():
         i = 1
         while i < 8:
             print("> The filter method " + str(i) + "is now being applied.")
-            result = get_string(file.filename,i)
 
+            # la variable "result" contient la sortie textuelle de l'opération d'OCR
+            result,_ = get_string(file.filename,i)
+
+            # On stocke ensuite le contenue de cette variable dans un fichier txt
             f = open(os.path.join(output_dir,file.filename,file.filename+"_filter_"+str(i) + ".txt"),'w')
             f.write(result)
             f.close()
+
+            output_file = os.path.join(output_dir,file.filename,file.filename+"_filter_"+str(i) + ".txt")
+
+            # Méthode ou script qui permet de convertir la sortie .txt de l'opération d'OCR avec Pytesseract en fichier CSV
+
+            header = ['Element', 'Unite', 'Valeur_obtenu', 'Valeur_reference', 'Anteriorite']
+            with open('bilan.csv', 'w', encoding='UTF8') as f:
+                writer = csv.writer(f, delimiter=";")
+                writer.writerow(header)
+                fichier2 = open("correction0.txt", "a")
+                spell = SpellChecker(language=None, distance=1)
+                spell.word_frequency.load_dictionary('medicaleJson.json')
+                with open('datasetDcp.txt') as f:
+                    dictionnary = ['' + line.rstrip() for line in f]
+                file = open(output_file, "r")
+                # uniteBilan = open('uniteBilan.txt',"r")
+                fichier = open("dataResult0.txt", "a")
+                with open('uniteBilan.txt') as f:
+                    uniteBilan = ['' + uniteB.rstrip() for uniteB in f]
+                for line in file:
+                    correct_output = []
+                    output = '' + line.rstrip()
+                    listOutput = output.split()
+                    misspelled = spell.unknown(listOutput)
+                    for word in listOutput:
+                        correct_output.append(spell.correction(word))
+                    output = ' '.join(correct_output)
+                    fichier2.write(output + "\n")
+                    for element in dictionnary:
+                        correct_ligne = output if element.lower() in output.lower() else None
+                        if correct_ligne is None:
+                            pass
+                        else:
+                            correct_ligne = re.sub('([^\\w^*^<^>^=]{3,}[A-Za-z]*)(\\s*[a-zA-Z])*', ' ', correct_ligne)
+                            if re.search('([^\\d]+\\d+){2,}', correct_ligne):
+                                for unite in uniteBilan:
+                                    # print(correct_ligne)
+                                    # unite = ''+unit.rstrip()
+                                    # print(unite)
+                                    valeur = re.search(
+                                        '\\W+\\d+\\W?\\d*\\s' + unite + '\\s\\d+\\W?\\d*\\s\\w?\\s\\d+\\W?\\d*(\\s\\d+\\W?\\d*)?',
+                                        correct_ligne)
+                                    # print(valeur)
+                                    if valeur:
+                                        valeurBilan = valeur.group(0)
+                                        # print("mdr")
+                                        print(" {} {} ".format(element, valeurBilan))
+                                        print("")
+                                        data = []
+                                        data.append(element)
+                                        data.append(unite)
+                                        valeurBilan = re.sub(unite, '####', valeurBilan)
+                                        valeur_obtenu = re.search(r'\d+\W?\s?\d+\s?####', valeurBilan)
+                                        valeurBilan = re.sub(r'\d+\W?\s?\d+\s?####', '', valeurBilan)
+                                        if valeur_obtenu:
+                                            data.append(valeur_obtenu.group(0).rstrip('####'))
+
+                                        valeur_reference = re.search(r'\d+\W\d+\s?à\s?\d+\W\d+', valeurBilan)
+
+                                        if valeur_reference:
+                                            data.append(valeur_reference.group(0))
+                                        valeurBilan = re.sub(r'\d+\W\d+\s?à\s?\d+\W\d+', '', valeurBilan)
+
+                                        anteriorite = re.search(r'\d+\W?\s?\d+\W?\d*', valeurBilan)
+
+                                        if anteriorite:
+                                            data.append(anteriorite.group(0))
+
+                                        writer.writerow(data)
+                                        # fichier.write("\n\n"+correct_ligne+"\n\n")
+                                        break
+                                    else:
+                                        pass
+                            else:
+                                pass
+            fichier.close()
+            fichier2.close()
+
             i +=1
 
         end_time = time.time()
@@ -208,21 +342,29 @@ def upload_image():
 
         preprocess_image()
         try:
-            return send_from_directory(os.getcwd(), 'resultat_OCR.txt', as_attachment=True)
+            return send_from_directory(os.getcwd(), 'bilan.csv', as_attachment=True)
         except Exception:
             abort(404)
     except Exception:
         return render_template("imagetotext.html")
 
+@app.route('/database/<filename>')
+def database(filename):
+    filename = 'http://127.0.0.1:5000/uploads/' + filename
+    return render_template('database.html',filename = filename)
 
-
+@app.route('/database_download/<filename>')
+def database_download(filename):
+    path = os.getcwd()
+    UPLOAD_FOLDER = path+'/'+'uploads'
+    return send_from_directory(UPLOAD_FOLDER,filename)
 
 @app.route('/')
 @app.route('/index')
 def home():
     return render_template('index.html')
 
-@app.route('/ocr')
+@app.route('/imagetotext')
 def ocr_imagetotext():
     return render_template('imagetotext.html')
 
