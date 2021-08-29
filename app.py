@@ -17,6 +17,7 @@ import numpy as np
 import re
 import csv
 from spellchecker import SpellChecker
+#from skimage import io
 from statistics import mode
 
 
@@ -51,11 +52,68 @@ app.config['MAX_CONTENT_LENGHT'] = 16*1024*1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg','.png','.jpeg']
 app.config['UPLOAD_PATH'] = 'uploads'
 
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Secret key for sessions encryption
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
+
+# Liste des extensiosn autorisées pour l'upload des fichiers
+ALLOWED_EXTENSIONS  = set(['txt','pdf','png','jpg','jpeg','gif'])
+
+
+
+def apply_threshold(img,argument):
+    switcher = {
+        1: cv2.threshold(cv2.GaussianBlur(img,(9,9),0),0,255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
+        2: cv2.threshold(cv2.GaussianBlur(img,(7,7),0),0,255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
+        3: cv2.threshold(cv2.GaussianBlur(img, (5,5),0),0,255,cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
+        4: cv2.threshold(cv2.medianBlur(img,5),0,255,cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
+        5: cv2.threshold(cv2.medianBlur(img,3),0,255,cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
+        6: cv2.adaptiveThreshold(cv2.GaussianBlur(img,(5,5),0),255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,31,2),
+        7: cv2.adaptiveThreshold(cv2.medianBlur(img,3),255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,31,2),
+
+    }
+    return switcher.get(argument,"Invalid method")
+
+def get_string(img_path,method):
+
+    path = os.getcwd()
+    output_dir = os.path.join(path, 'output')
+    # Read image using openCV
+    #img = io.imread(img_path)
+    img = cv2.imread(img_path)
+    file_name = os.path.basename(img_path).split('.')[0]
+    file_name = file_name.split()[0]
+
+    output_path = os.path.join(output_dir,file_name)
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+    # convert to gray
+    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+    # Apply dilation and erosion to remove some noise
+    kernel = np.ones((1,1),np.uint8)
+    img = cv2.dilate(img,kernel,iterations=1)
+    img = cv2.erode(img,kernel,iterations=1)
+
+    # Apply threshold to get image with only black and white
+    img = apply_threshold(img,method)
+    save_path = os.path.join(output_path,file_name + "_filter_"+str(method) +".jpg")
+
+    cv2.imwrite(save_path,img)
+
+    # Recognize text with tesseract for python
+    result = pytesseract.image_to_string(img,lang="fra",config="--oem 3 --psm 6")
+
+    return result,save_path
+
+
+
+
+def allow_file(filename):
+    return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/home')
 def my_home():
@@ -67,6 +125,55 @@ def scan_file():
     if request.method == 'POST':
         start_time = datetime.datetime.now()
         image_data = request.files['file'].read()
+
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            flash('No file selected for uploading')
+            return redirect(request.url)
+
+        if file and allow_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            flash('File successfully uploaded')
+
+        #image_output = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+        image_output = "/Users/morellatel/PycharmProjects/ocr-anaclic-project/uploads/Bilans_sanguins-page0.jpg"
+
+        print("Image output :",image_output)
+        i = 1
+
+        curr_path = os.getcwd()
+        output_dir = os.path.join(curr_path, 'output')
+
+        while i < 8:
+            print("> The filter method " + str(i) + "is now being applied.")
+
+            # la variable "result" contient la sortie textuelle de l'opération d'OCR
+
+            while not os.path.isfile(image_output):
+                # ignore if no such file is present.
+                pass
+
+            result,_ = get_string(image_output,i)
+
+            # On stocke ensuite le contenue de cette variable dans un fichier txt
+            f = open(os.path.join(output_dir,image_output,image_output+"_filter_"+str(i) + ".txt"),'w')
+            f.write(result)
+            f.close()
+
+
+            i+=1
+
+        #result,_ = get_string(image_output)
+
 
         scanned_text = pytesseract.image_to_string(Image.open(io.BytesIO(image_data)),lang='fra',config='--oem 3 --psm 6')
 
@@ -99,52 +206,6 @@ def result():
 
 
 
-
-
-def apply_threshold(img,argument):
-    switcher = {
-        1: cv2.threshold(cv2.GaussianBlur(img,(9,9),0),0,255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
-        2: cv2.threshold(cv2.GaussianBlur(img,(7,7),0),0,255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
-        3: cv2.threshold(cv2.GaussianBlur(img, (5,5),0),0,255,cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
-        4: cv2.threshold(cv2.medianBlur(img,5),0,255,cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
-        5: cv2.threshold(cv2.medianBlur(img,3),0,255,cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
-        6: cv2.adaptiveThreshold(cv2.GaussianBlur(img,(5,5),0),255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,31,2),
-        7: cv2.adaptiveThreshold(cv2.medianBlur(img,3),255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,31,2),
-
-    }
-    return switcher.get(argument,"Invalid method")
-
-def get_string(img_path,method):
-
-    path = os.getcwd()
-    output_dir = os.path.join(path, 'output')
-    # Read image using openCV
-    img = cv2.imread(img_path)
-    file_name = os.path.basename(img_path).split('.')[0]
-    file_name = file_name.split()[0]
-
-    output_path = os.path.join(output_dir,file_name)
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-
-    # convert to gray
-    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-
-    # Apply dilation and erosion to remove some noise
-    kernel = np.ones((1,1),np.uint8)
-    img = cv2.dilate(img,kernel,iterations=1)
-    img = cv2.erode(img,kernel,iterations=1)
-
-    # Apply threshold to get image with only black and white
-    img = apply_threshold(img,method)
-    save_path = os.path.join(output_path,file_name + "_filter_"+str(method) +".jpg")
-
-    cv2.imwrite(save_path,img)
-
-    # Recognize text with tesseract for python
-    result = pytesseract.image_to_string(img,lang="fra",config="--oem 3 --psm 6")
-
-    return result,save_path
 
 
 def pretty_print(result_dict):
@@ -225,11 +286,18 @@ def upload_image():
         uploaded_files = request.files.getlist("files")
         for file in uploaded_files:
             if allowed_file(file.filename):
-                file.filename = secure_filename(file.filename)
+                #file.filename = secure_filename(file.filename)
+
+                filename = secure_filename(file.filename)
                 file_names.insert(0, file.filename)
-                file.save(file.filename)
+                #file.save(file.filename)
+
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+                flash('File successfully uploaded')
 
         file_name = file.filename
+        print("Filename :",file_name)
         start_time = time.time()
         i = 1
         while i < 8:
@@ -348,16 +416,16 @@ def upload_image():
     except Exception:
         return render_template("imagetotext.html")
 
-@app.route('/database/<filename>')
-def database(filename):
-    filename = 'http://127.0.0.1:5000/uploads/' + filename
-    return render_template('database.html',filename = filename)
+#@app.route('/database/<filename>')
+#def database(filename):
+#    filename = 'http://127.0.0.1:5000/uploads/' + filename
+#    return render_template('database.html',filename = filename)
 
-@app.route('/database_download/<filename>')
-def database_download(filename):
-    path = os.getcwd()
-    UPLOAD_FOLDER = path+'/'+'uploads'
-    return send_from_directory(UPLOAD_FOLDER,filename)
+#@app.route('/database_download/<filename>')
+#def database_download(filename):
+#    path = os.getcwd()
+#    UPLOAD_FOLDER = path+'/'+'uploads'
+#    return send_from_directory(UPLOAD_FOLDER,filename)
 
 @app.route('/')
 @app.route('/index')
